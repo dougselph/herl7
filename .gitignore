@@ -3,6 +3,8 @@ ebin/*
 log/*
 .DS_Store
 erl_crash.dump
+priv/front/assets/*
+priv/front/tmp/*
 
 
 
