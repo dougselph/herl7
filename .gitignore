@@ -3,7 +3,6 @@ ebin/*
 log/*
 .DS_Store
 erl_crash.dump
-*.app.src
 
 
 
