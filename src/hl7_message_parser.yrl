@@ -1,4 +1,4 @@
-Nonterminals message segment part_content vals val segments segment_content fields field components component subcomponents.
+Nonterminals message segment part_content vals val segments segment_content fields field subfield components component subcomponents.
 Terminals byte field_separator component_separator subcomponent_separator field_repeat_separator segment_terminator.
 
 Rootsymbol message.
@@ -14,8 +14,11 @@ segment_content -> fields : create_segment('$1').
 fields -> field : ['$1'].
 fields -> field field_separator fields : lists:append(['$1'], '$3').
 
-field -> part_content : create_content_field('$1').
-field -> components : create_component_field('$1').
+field -> subfield : '$1'.
+field -> field field_repeat_separator subfield : '$1'. % Just get rid of any tailing repeated fields
+
+subfield -> part_content : create_content_field('$1').
+subfield -> components : create_component_field('$1').
 
 
 % Components
