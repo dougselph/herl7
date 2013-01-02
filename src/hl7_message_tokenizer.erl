@@ -36,7 +36,7 @@ parse_msh([$M, $S, $H, FieldSep, CompSep, FRepeat, EscChar, SCSep|Rest]) ->
   },
   {MProps, Tokens, Rest}.
 
-tokenize_it([$\r], _MsgPropts, Tokens) ->
+tokenize_it([CR], _MsgPropts, Tokens) when CR =:= $\r orelse CR =:= $\n ->
   lists:append(Tokens, [{segment_terminator, 1}]);
 tokenize_it([A, B|Rest], MsgPropts, Tokens) ->
   EChar = hl7_message_properties:escape_character(MsgPropts),
@@ -47,6 +47,7 @@ tokenize_it([A, B|Rest], MsgPropts, Tokens) ->
   case ({A, B}) of
   {EChar,Char} -> tokenize_it(Rest, MsgPropts, lists:append(Tokens, [?B_TOK(Char)]));
   {$\r,Char} -> tokenize_it([Char|Rest], MsgPropts, lists:append(Tokens, [?ST_TOK]));
+  {$\n,Char} -> tokenize_it([Char|Rest], MsgPropts, lists:append(Tokens, [?ST_TOK]));
   {FChar,Char} -> tokenize_it([Char|Rest], MsgPropts, lists:append(Tokens, [?FS_TOK]));
   {CChar,Char} -> tokenize_it([Char|Rest], MsgPropts, lists:append(Tokens, [?CS_TOK]));
   {SCChar,Char} -> tokenize_it([Char|Rest], MsgPropts, lists:append(Tokens, [?SCS_TOK]));
