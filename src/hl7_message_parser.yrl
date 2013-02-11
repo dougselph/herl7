@@ -29,12 +29,11 @@ components -> component component_separator component : ['$1', '$3'].
 components -> component component_separator components : lists:append(['$1'], '$3').
 
 component -> part_content : create_content_component('$1').
-%component -> part_content subcomponent_separator part_content : create_content_component('$1'). % Drop all but first subcomponent.
 component -> subcomponents : create_subcomponent_component('$1').
 
 % Subcomponents
 subcomponents -> part_content subcomponent_separator part_content : create_content_component('$1'). %create_subcomponents('$1', '$3').
-%subcomponents -> part_content subcomponent_separator subcomponents : append_subcomponents('$1', '$3').
+subcomponents -> part_content subcomponent_separator subcomponents : append_subcomponents('$1', '$3').
 
 % Vanilla Content
 part_content -> '$empty' : nil.
