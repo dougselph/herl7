@@ -16,6 +16,9 @@ fields -> field field_separator fields : lists:append(['$1'], '$3').
 
 field -> subfield : '$1'.
 field -> field field_repeat_separator subfield : '$1'. % Just get rid of any tailing repeated fields
+field -> field subcomponent_separator subfield : '$1'. % Drop any contents of field following subcomponent_separator
+                                                       % This breaks standard, I believe, but is required to process
+                                                       % messages from Cerner system.
 
 subfield -> part_content : create_content_field('$1').
 subfield -> components : create_component_field('$1').
